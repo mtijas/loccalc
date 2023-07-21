@@ -8,7 +8,7 @@ Simply run against some directory (or many directories):
 
 ## Testing 
 
-Test by running `$ python3 loccalc.py test`. 
+Test by running `$ python3 loccalc.py manual-test`.
 
 Should result:
 ```
