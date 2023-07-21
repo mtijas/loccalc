@@ -64,12 +64,27 @@ def print_result(name, result):
     print(f"Empty rows: {result.empties}")
     print(f"Total: {result.total}")
 
-def main(argv):
-    file_results = []
+def sum_totals(file_results):
     total_lines = 0
     total_loc = 0
     total_comments = 0
     total_empties = 0
+
+    for row in file_results:
+        total_lines += row[1].total
+        total_loc += row[1].loc
+        total_comments += row[1].comments
+        total_empties += row[1].empties
+
+    return LineCount(
+        total=total_lines, 
+        loc=total_loc, 
+        comments=total_comments, 
+        empties=total_empties
+    )
+
+def main(argv):
+    file_results = []
 
     for arg in argv:
         count_dir(arg, file_results)
@@ -77,12 +92,8 @@ def main(argv):
     for row in file_results:
         print_result(row[0], row[1])
         print("----------")
-        total_lines += row[1].total
-        total_loc += row[1].loc
-        total_comments += row[1].comments
-        total_empties += row[1].empties
 
-    totals = LineCount(total_lines, total_loc, total_comments, total_empties)
+    totals = sum_totals(file_results)
     print_result("Totals", totals)
 
 
