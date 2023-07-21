@@ -1,5 +1,5 @@
 '''
-' Lines of Code calculator
+Lines of Code calculator
 
 Test by running `$ python3 loccalc.py test`. 
 
