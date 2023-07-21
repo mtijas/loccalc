@@ -1,5 +1,5 @@
 '''
-Lines of Code calculator
+' Lines of Code calculator
 
 Test by running `$ python3 loccalc.py test`. 
 
@@ -15,16 +15,43 @@ Total: 50
 import sys, os
 from collections import namedtuple
 
+filetype_to_lang = {
+    "java": "java",
+    "c": "c",
+    "h": "c",
+    "cpp": "c",
+    "hpp": "c",
+    "py": "python",
+}
+
+lang_features = {
+    "python": {
+        "comments": ("'"),
+    },
+    "java": {
+        "comments": ("//", "/*", "*", "*/"),
+    },
+    "c": {
+        "comments": ("//", "/*", "*", "*/"),
+    },
+}
+
 LineCount = namedtuple(
     "LineCount", 
     ["total", "loc", "comments", "empties"]
 )
 
-def countlines(file):
+def count_lines(file, file_results):
     lines = 0
     loc = 0
     comments = 0
     empties = 0
+
+    filetype = file.rsplit(".")[-1]
+    if (filetype not in filetype_to_lang.keys()):
+        return
+
+    lang = filetype_to_lang[filetype]
 
     handle = open(file, 'r')
     for line in handle.readlines():
@@ -32,30 +59,32 @@ def countlines(file):
 
         stripped = line.strip()
 
-        if (stripped.startswith("/*") 
-                or stripped.startswith("*")
-                or stripped.startswith("//")):
+        if (stripped.startswith(lang_features[lang]["comments"])):
             comments += 1
         elif "" == stripped:
             empties += 1
         else:
             loc += 1
 
-    return LineCount(
+    result = LineCount(
         total=lines, 
         loc=loc, 
         comments=comments, 
         empties=empties
     )
+    file_results.append((file, result))
 
 def count_dir(dir, file_results):
-    dir = dir.rstrip("/")
-    items = os.listdir(dir)
-    for item in items:
-        if os.path.isdir(f"{dir}/{item}"):
-            count_dir(f"{dir}/{item}/", file_results)
-        else:
-            file_results.append((f"{dir}/{item}", countlines(f"{dir}/{item}")))
+    if os.path.isdir(dir):
+        dir = dir.rstrip("/")
+        items = os.listdir(dir)
+        for item in items:
+            if os.path.isdir(f"{dir}/{item}"):
+                count_dir(f"{dir}/{item}/", file_results)
+            else:
+                count_lines(f"{dir}/{item}", file_results)
+    elif os.path.isfile(dir):
+        count_lines(dir, file_results)
 
 def print_result(name, result):
     print(f"**{name}**")
