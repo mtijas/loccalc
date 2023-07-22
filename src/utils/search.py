@@ -32,7 +32,7 @@ def find_first_substr(needles: list[str], haystack: str) -> tuple[int, str]:
     """Finds the first occurrence of any needle in haystack and returns it and it's position
     as a tuple.
     """
-    needle_positions = list(zip(needles, map(haystack.find, needles)))
+    needle_positions = zip(needles, map(haystack.find, needles))
     actual_occurences = list(filter(lambda item: -1 < item[1], needle_positions))
     if actual_occurences:
         return sorted(actual_occurences, key=lambda item: item[1])[0]
