@@ -1,13 +1,13 @@
 from ..utils import search
 
-def generic_counter(file: str, comment_block_delimiters: dict[str, str], comment_starters: tuple[str]) -> dict[str, int]:
+def generic_counter(file_path: str, comment_block_delimiters: dict[str, str], comment_starters: tuple[str]) -> dict[str, int]:
     total = 0
     loc = 0
     comments = 0
     empties = 0
     comment_block_type = None
 
-    handle = open(file, 'r')
+    handle = open(file_path, 'r')
     for line in handle.readlines():
         total += 1
 
