@@ -23,13 +23,14 @@ def main(argv):
 
     items = os.listdir("src/counters")
     for item in items:
-        if item.startswith("_") or os.path.isdir(item):
+        if os.path.isdir(item) or item.startswith("_") or not item.endswith(".py"):
             continue
 
         item = item.removesuffix(".py")
         instance = import_module(f"src.counters.{item}")
-        for filetype in instance.supported_filetypes:
-            filetypes_to_counters[filetype] = instance
+        if hasattr(instance, "supported_filetypes"):
+            for filetype in instance.supported_filetypes:
+                filetypes_to_counters[filetype] = instance
 
     for arg in argv:
         calculator.count_dir(arg, results, filetypes_to_counters)
