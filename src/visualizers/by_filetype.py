@@ -5,7 +5,6 @@ def visualize(results):
 
     for row in results:
         if row.filetype in filetype_totals:
-            print(filetype_totals)
             filetype_totals[row.filetype] = types.LineCount(
                 loc = filetype_totals[row.filetype].loc + row.linecount.loc,
                 comments = filetype_totals[row.filetype].comments + row.linecount.comments,

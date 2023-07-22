@@ -15,7 +15,7 @@ Total: 83
 import sys, os
 from importlib import import_module
 from src import calculator
-from src.visualizers import totals_printer, by_filetype_printer
+from src.visualizers import totals, by_filetype
 
 def main(argv):
     results = []
@@ -34,8 +34,8 @@ def main(argv):
     for arg in argv:
         calculator.count_dir(arg, results, filetypes_to_counters)
 
-    by_filetype_printer.visualize(results)
-    totals_printer.visualize(results)
+    by_filetype.visualize(results)
+    totals.visualize(results)
 
 
 if "__main__" == __name__:
