@@ -20,7 +20,7 @@ def count_lines(file):
         stripped = line.strip()
 
         if comment_block_type is None:
-            if (stripped.startswith(("//", "/*", "*"))):
+            if (stripped.startswith(("//", "/*"))):
                 comments += 1
             elif "" == stripped:
                 empties += 1

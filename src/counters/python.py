@@ -21,10 +21,10 @@ def count_lines(file):
         stripped = line.strip()
 
         if comment_block_type is None:
-            if "" == stripped:
-                empties += 1
-            elif stripped.startswith(("'''", '"""', "#")):
+            if stripped.startswith(("'''", '"""', "#")):
                 comments += 1
+            elif "" == stripped:
+                empties += 1
             else:
                 loc += 1
 
