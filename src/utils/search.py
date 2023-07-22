@@ -4,8 +4,6 @@ def find_multiline_starter(needles: dict[str, str], haystack: str) -> str:
     Expects needles to be a dict of block/multiline comment starting strings as keys and corresponding
     ending strings as values.
 
-    Assumes block comments always end with the same needle/string they started with.
-
     Returns starting needle IF the haystack starts a multiline comment,
     None otherwise (the haystack closes all the comment blocks it starts).
     """
