@@ -1,0 +1,30 @@
+'''"""
+Lines of Code calculator
+
+Test by running `$ python3 loccalc.py test`.
+
+Should result:
+**Totals**
+LOC: 10
+Comments: 30
+Empty rows: 10
+Total: 50
+
+'''
+
+"""''''
+'''
+"""
+
+""""""
+
+''' ''' """ ''' """ """ ''' """ ''' """
+
+''''''
+
+'''
+
+import sys, os; """koira"""'''
+
+kissa
+'''
