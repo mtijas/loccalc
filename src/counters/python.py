@@ -2,6 +2,11 @@ from ..utils import search
 
 supported_filetypes = ["py"]
 
+comment_block_delimiters = {
+    "'''": "'''",
+    '"""': '"""',
+}
+
 def count_lines(file):
     total = 0
     loc = 0
@@ -24,15 +29,18 @@ def count_lines(file):
             else:
                 loc += 1
 
-            comment_start_str = search.find_multiline_starter(["'''", '"""'], stripped)
+            comment_start_str = search.find_multiline_starter(comment_block_delimiters, stripped)
             if comment_start_str is not None:
                 in_multiline_comment = True
 
         else:
             comments += 1
-            ending_position = stripped.find(comment_start_str)
+            ending_position = stripped.find(comment_block_delimiters[comment_start_str])
             if -1 < ending_position:
-                comment_start_str = search.find_multiline_starter(["'''", '"""'], stripped[ending_position+3:])
+                comment_start_str = search.find_multiline_starter(
+                    comment_block_delimiters,
+                    stripped[ending_position+3:]
+                )
                 if comment_start_str is None:
                     in_multiline_comment = False
 
