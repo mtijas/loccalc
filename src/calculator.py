@@ -33,7 +33,7 @@ def count_dir(dir_path, results, filetypes_to_counters):
                         )
                     )
     elif os.path.isfile(dir_path):
-        count_result = handle_file(dir, filetypes_to_counters)
+        count_result = handle_file(dir_path, filetypes_to_counters)
         if count_result is not None:
             results.append(
                 types.ResultRow(
