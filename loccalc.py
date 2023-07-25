@@ -16,9 +16,9 @@ import sys
 from src import calculator
 
 
-def main(argv):
-    calculator.start(argv)
+def main():
+    calculator.start(sys.argv[1:])
 
 
 if "__main__" == __name__:
-    main(sys.argv[1:])
+    main()
