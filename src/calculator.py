@@ -32,16 +32,22 @@ def load_counters() -> dict[str, object]:
 
 
 def handle_file(
-    file_name: str, filetypes_to_counters: dict[str, object]
+    filename: str, filetypes_to_counters: dict[str, object]
 ) -> types.LineCount:
-    filetype = file_name.rsplit(".")[-1]
-    if filetype not in filetypes_to_counters.keys():
-        return
+    filetype = filename.rsplit(".")[-1]
 
-    handler = filetypes_to_counters[filetype]
-    count_result = handler.count_lines(file_name)
+    if filetype in filetypes_to_counters.keys():
+        handler = filetypes_to_counters[filetype]
+        linecount = types.LineCount(**handler.count_lines(filename))
+    else:
+        linecount = None
 
-    return types.LineCount(**count_result)
+    return types.ResultRow(
+        path=filename.rsplit("/", 1)[0],
+        filename=filename,
+        filetype=filetype,
+        linecount=linecount,
+    )
 
 
 def count_dir(
@@ -57,27 +63,13 @@ def count_dir(
             if os.path.isdir(full_path):
                 results.extend(count_dir(f"{full_path}/", filetypes_to_counters))
             else:
-                count_result = handle_file(full_path, filetypes_to_counters)
-                if count_result is not None:
-                    results.append(
-                        types.ResultRow(
-                            path=dir_path,
-                            filename=full_path.rsplit("/")[-1],
-                            filetype=full_path.rsplit(".")[-1],
-                            linecount=count_result,
-                        )
-                    )
+                resultrow = handle_file(full_path, filetypes_to_counters)
+                if resultrow is not None:
+                    results.append(resultrow)
 
     elif os.path.isfile(dir_path):
-        count_result = handle_file(dir_path, filetypes_to_counters)
-        if count_result is not None:
-            results.append(
-                types.ResultRow(
-                    path=dir_path.rsplit("/", 1)[0],
-                    filename=dir_path.rsplit("/")[-1],
-                    filetype=dir_path.rsplit(".")[-1],
-                    linecount=count_result,
-                )
-            )
+        resultrow = handle_file(dir_path, filetypes_to_counters)
+        if resultrow is not None:
+            results.append(resultrow)
 
     return results

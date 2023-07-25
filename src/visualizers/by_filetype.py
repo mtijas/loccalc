@@ -5,6 +5,9 @@ def visualize(results):
     filetype_totals = {}
 
     for row in results:
+        if row.linecount is None:
+            continue
+
         if row.filetype in filetype_totals:
             filetype_totals[row.filetype] = types.LineCount(
                 loc=filetype_totals[row.filetype].loc + row.linecount.loc,
