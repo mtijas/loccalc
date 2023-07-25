@@ -3,8 +3,8 @@ Yet another Lines of Code calculator
 
 ## Running
 
-Simply run against some directory (or many directories):
-`$ python3 loccalc.py <directory> [<directory>...]`
+Simply run against some directory or file (or many):
+`$ python3 loccalc.py <directory/file> [<directory/file>...]`
 
 ## Testing 
 
