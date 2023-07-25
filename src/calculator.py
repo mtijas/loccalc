@@ -5,10 +5,11 @@ from src.visualizers import totals, by_filetype
 
 
 def start(argv: list[str]):
+    results = list()
     filetypes_to_counters = load_counters()
 
     for arg in argv:
-        results = count_dir(arg, filetypes_to_counters)
+        results.extend(count_dir(arg, filetypes_to_counters))
 
     by_filetype.visualize(results)
     totals.visualize(results)
