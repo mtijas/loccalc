@@ -1,4 +1,4 @@
-'''
+"""
 Lines of Code calculator
 
 Test by running `$ python3 loccalc.py manual-test`.
@@ -10,12 +10,14 @@ Comments: 55
 Empty rows: 14
 Total: 83
 
-'''
+"""
 
-import sys, os
+import sys
+import os
 from importlib import import_module
 from src import calculator
 from src.visualizers import totals, by_filetype
+
 
 def main(argv):
     results = []

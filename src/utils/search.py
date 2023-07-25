@@ -1,8 +1,9 @@
 def find_multiline_starter(needles: dict[str, str], haystack: str) -> str:
-    """Finds the needle starting a multiline comment IF the haystack starts a multiline comment.
+    """Finds the needle starting a multiline comment
+        IF the haystack starts a multiline comment.
 
-    Expects needles to be a dict of block/multiline comment starting strings as keys and corresponding
-    ending strings as values.
+    Expects needles to be a dict of block/multiline comment starting strings
+    as keys and corresponding ending strings as values.
 
     Returns starting needle IF the haystack starts a multiline comment,
     None otherwise (the haystack closes all the comment blocks it starts).
@@ -13,11 +14,13 @@ def find_multiline_starter(needles: dict[str, str], haystack: str) -> str:
     while found_substr is not None:
         comment_starting_needle = found_substr[0]
         # Find the closing occurrence for the needle that started current comment block
-        next_position += found_substr[1]+3
-        found_substr = find_first_substr([needles[found_substr[0]]], haystack[next_position:])
+        next_position += found_substr[1] + 3
+        found_substr = find_first_substr(
+            [needles[found_substr[0]]], haystack[next_position:]
+        )
         if found_substr is not None:
             # Current comment block ended (same needle found), let's find possible next block starter
-            next_position += found_substr[1]+3
+            next_position += found_substr[1] + 3
             found_substr = find_first_substr(needles.keys(), haystack[next_position:])
         else:
             # Current comment block continues till the end -> we are starting multiline comment
