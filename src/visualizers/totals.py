@@ -4,10 +4,12 @@ def visualize(results):
     total_comments = 0
     total_empties = 0
     unknown_files = 0
+    unknown_filetypes = set()
 
     for row in results:
         if row.linecount is None:
             unknown_files += 1
+            unknown_filetypes.add(row.filetype)
             continue
         total_lines += row.linecount.total
         total_loc += row.linecount.loc
@@ -22,3 +24,5 @@ def visualize(results):
 
     if unknown_files > 0:
         print(f"\n** Unknown files: {unknown_files} **")
+        print(f"File types: {', '.join(unknown_filetypes)}")
+
