@@ -33,13 +33,18 @@ def load_counters() -> dict[str, object]:
 
 
 def handle_file(
-    filename: str, filetypes_to_counters: dict[str, object]
+    file_path: str, filetypes_to_counters: dict[str, object]
 ) -> types.LineCount:
-    filetype = filename.rsplit(".")[-1]
+    filename = file_path.rsplit("/")[-1]
+    if filename.startswith("."):
+        return None
+
+    filename_split = filename.rsplit(".")
+    filetype = filename_split[-1] if len(filename_split) > 1 else "unknown"
 
     if filetype in filetypes_to_counters.keys():
         handler = filetypes_to_counters[filetype]
-        linecount = types.LineCount(**handler.count_lines(filename))
+        linecount = types.LineCount(**handler.count_lines(file_path))
     else:
         linecount = None
 
@@ -60,6 +65,9 @@ def count_dir(
         items = os.listdir(dir_path)
 
         for item in items:
+            if item.startswith("."):
+                continue
+
             full_path = f"{dir_path}/{item}"
             if os.path.isdir(full_path):
                 results.extend(count_dir(f"{full_path}/", filetypes_to_counters))
