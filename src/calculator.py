@@ -62,7 +62,10 @@ def count_dir(
     results = list()
     if os.path.isdir(dir_path):
         dir_path = dir_path.rstrip("/")
-        items = os.listdir(dir_path)
+        try:
+            items = os.listdir(dir_path)
+        except PermissionError:
+            return results
 
         for item in items:
             if item.startswith("."):
@@ -77,8 +80,11 @@ def count_dir(
                     results.append(resultrow)
 
     elif os.path.isfile(dir_path):
-        resultrow = handle_file(dir_path, filetypes_to_counters)
-        if resultrow is not None:
-            results.append(resultrow)
+        try:
+            resultrow = handle_file(dir_path, filetypes_to_counters)
+            if resultrow is not None:
+                results.append(resultrow)
+        except PermissionError:
+            pass
 
     return results
